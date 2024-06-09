@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Todos from './components/Todos';
+import TodoForm from './components/TodoForm'
+
 
 function App() {
     const [todos, setTodos] = useState([
@@ -25,11 +27,11 @@ function App() {
     const toggleCompleted = (todoId) => {
         const updatedTodos = todos.map((todo) => {
             if (todo.id === todoId) {
-              todo.completed = !todo.completed
+                todo.completed = !todo.completed
             }
             return todo
-          })
-          setTodos(updatedTodos)
+        })
+        setTodos(updatedTodos)
     }
 
     const deleteTodo = (todoId) => {
@@ -37,10 +39,26 @@ function App() {
         setTodos(updatedTodos)
     }
 
+    const addTodo = (todoTitle) => {
+        if (todoTitle === '') {
+            return
+        }
+
+        const newTodo = {
+            id: todos.length + 1,
+            title: todoTitle,
+            completed: false,
+        }
+
+        const updatedTodos = todos.concat(newTodo)
+        setTodos(updatedTodos)
+    }
+
     return (
         <div style={styles.container}>
             <h1 style={styles.title}>My Todo List</h1>
-            <Todos todos={todos} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo}/>
+            <TodoForm addTodo={addTodo} />
+            <Todos todos={todos} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo} />
         </div>
     )
 }
